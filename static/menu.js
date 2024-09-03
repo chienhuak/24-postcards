@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	// Function to fetch country data and populate select menu
+	// Function to fetch country data
 	function country() {
 	  fetch('/countries.json', {
 		method: 'GET'
@@ -9,7 +9,7 @@ $(document).ready(function() {
 	  .then(json => {
 		// Loop to get country list
 		json.features.forEach(function(feature) {
-		  $('#country-select').append('<option value="'+feature.properties.name+'">'+feature.properties.name+'</option>');
+		  $('#country-select').append('<option value="'+feature.id+'">'+feature.properties.name+'</option>');
 		});
 	  })
 	  .catch(error => {
