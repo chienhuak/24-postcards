@@ -171,7 +171,7 @@ async def add_postcards(request: Request):
 
 			mydb.commit()
 			
-			await broadcast_queue_update([postcard_id,], myjwtx["name"], 'add')
+			await broadcast_queue_update([{'postcardID':postcard_id,'mailFrom':myjwtx["name"]}], 'add')
 
 			return JSONResponse(status_code=200, content={
 					"name": myjwtx["name"], 
@@ -264,12 +264,12 @@ async def random_matching(request: Request):
 			mycursor.execute(query3, (i[1],i[0]))
 			mycursor.execute(query4, (i[1],i[0]))
 
-			broadcast_del_list.append(i[0])
-			broadcast_del_list.append(i[1])
+			broadcast_del_list.append({'postcardID':i[0]})
+			broadcast_del_list.append({'postcardID':i[1]})
 
 		mydb.commit()
 
-		broadcast_queue_update(broadcast_del_list, 'delete')
+		await broadcast_queue_update(broadcast_del_list, 'del')
 
 		return {
 			"ok": True
@@ -739,16 +739,15 @@ async def send_all_queue(ws: WebSocket) :
 			mycursor.execute(query)
 
 			results = mycursor.fetchall()
-			print(results)
+			# print(results)
 
 			# 將 latitude 和 longitude 的 Decimal 類型轉為 float (Fix : Object of type Decimal is not JSON serializable)
 			for result in results:
 				result['latitude'] = float(result['latitude'])
 				result['longitude'] = float(result['longitude'])
-				result['action'] = "add"
 
 			# 將查詢結果透過 WebSocket 發送到客戶端
-			await ws.send_text(json.dumps(results))
+			await ws.send_text(json.dumps({'postcard':results,'action':'add'}))
 			# print(results)
 	except WebSocketDisconnect :
 		manager.disconnect(ws)
@@ -756,13 +755,14 @@ async def send_all_queue(ws: WebSocket) :
 		print("發生錯誤 : ", e)
 
 
-async def broadcast_queue_update(postcard_id : list, mailFrom : list, action : str) :
+async def broadcast_queue_update(postcard : list, action : str) :
 	try :
-		message = [{'postcardID': postcard_id, 'mailFrom' : mailFrom, 'action': action}]
+		message = {'postcard': postcard, 'action': action}
 		message_str = json.dumps(message)
 		await manager.broadcast(message_str)
 	except Exception as e :
 		print("發生錯誤 : ", e)
+
 
 
 # 顯示動畫的 websocket
@@ -773,7 +773,7 @@ async def ws_queue(ws: WebSocket):
 	try :
 		while True:
 			data = await ws.receive_text()
-			await broadcast_queue_update(data)
+			# await broadcast_queue_update(data)
 	except WebSocketDisconnect :
 		manager.disconnect(ws)
 

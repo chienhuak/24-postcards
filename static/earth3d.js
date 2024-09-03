@@ -170,7 +170,7 @@ function nr() { // 返回-1到1之間的隨機數
 }
 
 
-export function makePlane(userId) {
+export function makePlane(postcard) {
 	let plane = planeMesh.clone();
 	plane.scale.set(0.0005, 0.0005, 0.0005)
 	// earth.add(plane)
@@ -179,10 +179,10 @@ export function makePlane(userId) {
 	// plane.quaternion.setFromUnitVectors(plane_up, direction)
 	// planes.push(plane)
 
-	console.log("飛機顯示：",userId)
+	console.log("飛機顯示：", postcard.mailFrom)
 
 	// 飛機上顯示 userID
-	const userIdTag = createTextMesh(userId);
+	const userIdTag = createTextMesh(postcard.mailFrom);
 	userIdTag.position.set(-0.1, 0.1, 0)
 	userIdTag.rotateX(Math.PI)  // Canvas 文字只能單面顯示，翻轉 180% 使正面朝上 
 	userIdTag.rotateZ(Math.PI/2)
@@ -197,7 +197,7 @@ export function makePlane(userId) {
 
 	// 設置 userData，才能在 raycaster 中識別 
 	plane.userData.isPlane = true;
-	plane.userData.userId = userId;
+	plane.userData.userId = postcard.mailFrom;
 
 
 	return {
@@ -207,9 +207,25 @@ export function makePlane(userId) {
 		rad: Math.random() * Math.PI * 0.45 + Math.PI * 0.05,
 		randomAxis: new THREE.Vector3(nr(), nr(), nr()).normalize(),
 		randomAxisRot: Math.random() * Math.PI * 1.2,
-		userIdTag: userIdTag
+		userIdTag: userIdTag,
+		postcardID: postcard.postcardID
 	}
 }
+
+
+export function removePlane(postcardID) {
+
+	for (let i = 0; i < planesData.length; i++) {
+		let plane = planesData[i]
+		if (plane.postcardID == postcardID){
+			console.log("刪除 plane :",postcardID)
+			plane.group.parent.remove(plane.group)	
+			planesData.splice(i,1)
+			break
+		}
+	}
+}
+
 
 
 // 開始轉的地方
