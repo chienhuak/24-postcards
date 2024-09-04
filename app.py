@@ -113,10 +113,6 @@ async def home(request: Request):
 async def feed(request: Request):
 	return FileResponse("./static/feed.html", media_type="text/html")
 
-@app.get("/countries.json", include_in_schema=False)
-async def feed(request: Request):
-	return FileResponse("./static/countries.json", media_type="application/json")
-
 @app.get("/collections", include_in_schema=False)
 async def collections(request: Request):
 	return FileResponse("./static/collections.html", media_type="text/html")
@@ -460,10 +456,10 @@ async def register(request: Request, data:dict):
 
 			else :
 				query = """
-				INSERT INTO postcard_users (name, username, password, country)
-				VALUES (%s, %s, %s, %s)
+				INSERT INTO postcard_users (name, username, password, country, region)
+				VALUES (%s, %s, %s, %s, %s)
 				"""
-				mycursor.execute(query, (data["name"],data["email"],data["password"],data["country"],))
+				mycursor.execute(query, (data["name"],data["email"],data["password"],data["country"],data["region"],))
 				mydb.commit()
 				return {
 					"ok": True

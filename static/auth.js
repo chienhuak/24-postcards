@@ -133,6 +133,7 @@ async function register() {
     const email = document.getElementById('emailx').value;
     const password = document.getElementById('passwordx').value;
     const country = document.getElementById('country-select').value;
+    const region = document.getElementById('region').value;
     const note = document.getElementById('note');
 
     const response = await fetch('/api/user', {
@@ -140,7 +141,7 @@ async function register() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "name":name, "email":email, "password":password, "country":country })
+        body: JSON.stringify({ "name":name, "email":email, "password":password, "country":country,"region":region })
       });
 
       if (response.ok) {

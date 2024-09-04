@@ -54,7 +54,7 @@
 		<div id="mySidebar" class="sidebar">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
-			<a href="#" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
+			<a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
 			<a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
 			<a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a>
 			<a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
@@ -62,8 +62,8 @@
 			<a href="#" <i class="fa fa-paper-plane"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
 			<a href="#" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">友站連結</span></a>
 			<a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
-			<a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a></div>
-
+			<a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a>
+			<a href="/about" <i class="fa fa-question"></i> <span class="d-none d-md-inline">關於</span></a>
 		</div>
 
 	<nav>
@@ -96,10 +96,10 @@
 		<input type="text"  id = "namex" class = "popup-input" placeholder="輸入暱稱">
 		<input type="text"  id = "emailx" class = "popup-input" placeholder="輸入電子信箱">
 		<input type="password"  id = "passwordx" class = "popup-input" placeholder="輸入密碼">
-		<!-- <input type="text"  id = "countryx" class = "popup-input" placeholder="輸入國家"> -->
 		<select id="country-select" name="country" class = "popup-input">
 			<option value="">（選擇國家）</option>
 		</select>
+		<input type="hidden" name="region" id = "region" class = "popup-input" placeholder="隱藏欄位(動態填值)">
 		<button class = "popup-btn" onclick="register()">註冊</button>
 		<p class="center-text"><span class="change-card" onclick="showSignin()">已經有帳戶了？點此登入</span></p>
 		<p id="note" class="note center-text"></p>

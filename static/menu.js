@@ -2,19 +2,32 @@ $(document).ready(function() {
 
 	// Function to fetch country data
 	function country() {
-	  fetch('/countries.json', {
+		fetch('/static/allcountry.json', {
 		method: 'GET'
-	  })
-	  .then(response => response.json())
-	  .then(json => {
+		})
+		.then(response => response.json())
+		.then(json => {
 		// Loop to get country list
-		json.features.forEach(function(feature) {
-		  $('#country-select').append('<option value="'+feature.id+'">'+feature.properties.name+'</option>');
-		});
-	  })
-	  .catch(error => {
-		console.error('Error fetching countries:', error);
-	  });
+		json.forEach(function(country) {
+			$('#country-select').append('<option value='+country.cca3+'>'+country.name.common+'</option>')
+		})
+
+		// Event listener : 根據 selectedCountry 更新 hidden region input	
+		$('#country-select').on('change', function() {
+			const selectedCountryCode = $(this).val()
+			const selectedCountry = json.find(c => c.cca3 === selectedCountryCode)
+			if (selectedCountry) {
+			$('#region').val(selectedCountry.region)
+			// console.log("對應地區：",selectedCountry.region)
+			}
+		})
+
+		})
+		.catch(error => {
+		console.error('Error fetching countries:', error)
+		})
+
+
 	}
   
 
