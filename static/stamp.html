@@ -51,33 +51,18 @@
 <body>
 	<div class="overlay" id="overlay"></div>
 
-		<!-- Sidebar -->
-		<div id="mySidebar" class="sidebar">
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
-			<a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
-			<a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
-			<a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a>
-			<a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
-			<a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
-			<a href="#" <i class="fa fa-paper-plane"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
-			<a href="#" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">友站連結</span></a>
-			<a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
-			<a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a>
-			<a href="/about" <i class="fa fa-question"></i> <span class="d-none d-md-inline">關於</span></a>
-		</div>
 
 	<nav>
 		<div class="nav-group">
-		<div class="nav-group-left">
-			<span id="toggle-btn" onclick="toggleSidebar()">&#9776; </span>	
-			<a class="home-link" href="/home"><img style="width: 41px; vertical-align: middle;" src="/static/image/post-card.png">Project-July Postcards</a>
-		</div>        
-		<div class="nav-group-right">
-			<a class = "a-style-1" href="/feed" onclick="toFeed()">留言板</a>
-			<a id = "signin-card" class = "a-style-1" href="" onclick="card(); return false;">登入/註冊</a>
-			<a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
-		</div>
+			<div class="nav-group-left">
+				<span id="toggle-btn" onclick="toggleSidebar(true)">&#9776; </span>	
+				<a class="home-link" href="/home"><img style="width: 41px; vertical-align: middle;" src="/static/image/post-card.png">Project-July Postcards</a>
+			</div>        
+			<div class="nav-group-right">
+				<a class = "a-style-1" href="/feed" onclick="toFeed()">留言板</a>
+				<a id = "signin-card" class = "a-style-1" href="" onclick="card(); return false;">登入/註冊</a>
+				<a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
+			</div>
 		</div>
 		<!-- pop up memu -->
 		<div class = "card">
@@ -107,26 +92,47 @@
 	</nav>
 
 	<div name="placeholder" style="height:50px;"></div>
-	<div class="container1200">
 
-		<!-- 郵票 -->
-		<div id="stamp-page">
+	<div class = 'flexDiv'>
 
-			<!-- Footprint Section -->
-			<div class="stamp-category" id="region-stamps">
-				<h2>區域風格郵票</h2>
-				<p>收到來自不同地區朋友的明信片，即可解鎖不同的區域郵票。</p>
-				<!-- 渲染Footprint郵票 -->
+			<!-- Sidebar -->
+			<div id="mySidebar" class="sidebarX">
+				<!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+				<a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
+				<a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
+				<a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
+				<a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a>
+				<a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
+				<a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
+				<a href="#" <i class="fa fa-paper-plane"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
+				<a href="#" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">友站連結</span></a>
+				<a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
+				<a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a>
+				<a href="/about" <i class="fa fa-question"></i> <span class="d-none d-md-inline">關於</span></a>
 			</div>
+
+			<div class="container1200">
+
+				<!-- 郵票 -->
+				<div id="stamp-page">
 		
-			<!-- Event Section -->
-			<div class="stamp-category" id="nonstop-stamps">
-				<h2>成就解鎖郵票</h2>
-				<p>寄出愈多張明信片，即可解鎖不同種類的郵票。</p>
-				<!-- 渲染Non-stop成就郵票 -->
+					<!-- Footprint Section -->
+					<div class="stamp-category" id="region-stamps">
+						<h2>區域風格郵票</h2>
+						<p>收到來自不同地區朋友的明信片，即可解鎖不同的區域郵票。</p>
+						<!-- 渲染Footprint郵票 -->
+					</div>
+				
+					<!-- Event Section -->
+					<div class="stamp-category" id="nonstop-stamps">
+						<h2>成就解鎖郵票</h2>
+						<p>寄出愈多張明信片，即可解鎖不同種類的郵票。</p>
+						<!-- 渲染Non-stop成就郵票 -->
+					</div>
+		
+				</div>
 			</div>
 
-		</div>
 	</div>
 
 	<!-- 功能表單展開視窗 -->

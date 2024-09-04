@@ -19,8 +19,9 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 
   <!-- 引入 Font Awesome 的 CSS 文件 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
   <!-- 畫布用 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
@@ -34,31 +35,18 @@
 <body>
   <div class="overlay" id="overlay"></div>
 
-	<!-- Sidebar -->
-	<div id="mySidebar" class="sidebar">
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-		<a href="/collections" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">我的收藏</span></a>
-		<a href="#" <i class="fa fa-list"></i> <span class="d-none d-md-inline">網站連結</span></a>
-		<a href="#" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
-		<a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
-		<a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
-		<a href="#" <i class="fa fa-envelope"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
-		<a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a></div>
-
-	</div>
-
   <nav>
-    <div class="nav-group">
-      <div class="nav-group-left">
-        <span id="toggle-btn" onclick="toggleSidebar()">&#9776; </span>	
-        <a class="home-link" href="/home">Project-July Postcards</a>
-      </div>        
-      <div class="nav-group-right">
-        <a class = "a-style-1" href="/feed" onclick="toFeed()">留言板</a>
-        <a id = "signin-card" class = "a-style-1" href="" onclick="card(); return false;">登入/註冊</a>
-        <a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
-      </div>
-    </div>
+		<div class="nav-group">
+			<div class="nav-group-left">
+				<span id="toggle-btn" onclick="toggleSidebar(true)">&#9776; </span>	
+				<a class="home-link" href="/home"><img style="width: 41px; vertical-align: middle;" src="/static/image/post-card.png">Project-July Postcards</a>
+			</div>        
+			<div class="nav-group-right">
+				<a class = "a-style-1" href="/feed" onclick="toFeed()">留言板</a>
+				<a id = "signin-card" class = "a-style-1" href="" onclick="card(); return false;">登入/註冊</a>
+				<a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
+			</div>
+		</div>
     <!-- pop up memu -->
     <div class = "card">
       <div class = "card-decorator"></div>
@@ -87,8 +75,27 @@
     </div>
   </nav>
   <div name="placeholder" style="height:50px;"></div>
-  <div class="container1200">
-    <div id="container2" style="width: 1200px; height: 600px;"></div>
+	<div class = 'flexDiv'>
+
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebarX">
+      <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+      <a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
+      <a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
+      <a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
+      <a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a>
+      <a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
+      <a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
+      <a href="#" <i class="fa fa-paper-plane"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
+      <a href="#" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">友站連結</span></a>
+      <a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
+      <a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a>
+      <a href="/about" <i class="fa fa-question"></i> <span class="d-none d-md-inline">關於</span></a>
+    </div>
+
+    <div class="container1200">
+      <div id="container2" style="width: 1200px; height: 600px;"></div>
+    </div>
   </div>
 
   <!-- 寄送明信片編輯框 -->
