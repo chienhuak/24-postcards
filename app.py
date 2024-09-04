@@ -129,6 +129,34 @@ async def feed(request: Request):
 async def feed(request: Request):
 	return FileResponse("./static/home.html", media_type="text/html")
 
+@app.get("/mystamps", include_in_schema=False)
+async def feed(request: Request):
+	return FileResponse("./static/stamp.html", media_type="text/html")
+
+
+# 我的郵票成就
+@app.get("/api/stamps", response_class=JSONResponse)
+async def stamps(request: Request):
+
+	auth_header = request.headers.get('Authorization')
+	if auth_header:
+		myjwt = auth_header.split(" ")[1] 
+		myjwtx = jwt.decode(myjwt,jwtkey,algorithms="HS256")
+
+	with mysql.connector.connect(pool_name="hello") as mydb, mydb.cursor(buffered=True,dictionary=True) as mycursor :
+
+		queryAll = """
+		SELECT *
+		FROM stamps 
+		"""
+		mycursor.execute(queryAll)
+		result1 = mycursor.fetchall()
+		# print(result1)
+
+	return {
+		"all": result1,
+		}
+
 
 # 新增明信片
 @app.post("/api/postcards", response_class=JSONResponse)
