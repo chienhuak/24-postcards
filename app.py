@@ -151,7 +151,21 @@ async def stamps(request: Request):
 		"""
 		mycursor.execute(queryAll)
 		result1 = mycursor.fetchall()
-		# print(result1)
+		# print("所有郵票清單：",result1)
+
+		queryUnlock = """
+		SELECT stamp_id
+		FROM user_stamp 
+		WHERE user_id = %s
+		"""
+		mycursor.execute(queryUnlock,(myjwtx["id"],))
+		result2 = mycursor.fetchall()
+		# print("解鎖成就：",result2)
+		unlocked_stamp_id = {stamp["stamp_id"] for stamp in result2}
+
+		for stamp in result1:
+			if stamp["stamp_id"] not in unlocked_stamp_id:
+				stamp["image_url"] = "/static/image/lock-icon-2.png"
 
 	return {
 		"all": result1,
