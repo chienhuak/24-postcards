@@ -219,6 +219,37 @@ async def add_postcards(request: Request):
 					"longitude": data["longitude"]})
 
 
+# 郵票解鎖
+def stamp_unlock(cursor : mysql.connector.cursor.MySQLCursorDict, postcardID : int) : 
+
+	query5 = """
+		SELECT t.id as receiverUid, f.region
+		FROM postcards p
+		INNER JOIN postcard_users f on f.name = p.mailFrom
+		INNER JOIN postcard_users t on t.name = p.mailTo
+		WHERE postcardID = %s
+		"""
+	cursor.execute(query5, (postcardID,))
+	user = cursor.fetchall()
+
+	query6 = """
+		SELECT s.stamp_id
+		FROM user_stamp us
+		INNER JOIN stamps s on s.stamp_id = us.stamp_id
+		WHERE us.user_id = %s and s.unlock_value=%s
+		LIMIT 1
+		"""
+	cursor.execute(query6, (user[0]['receiverUid'],user[0]['region']))
+	hasStamp = cursor.fetchall()
+
+	query7 = """
+		INSERT INTO user_stamp (user_id, stamp_id)
+		select %s, stamp_id from stamps where unlock_value = %s
+		"""
+	if not hasStamp :
+		cursor.execute(query7, (user[0]['receiverUid'],user[0]['region']))
+
+
 # 隨機配對，然後將配對結果回填到資料庫
 @app.get("/api/matching", response_class=JSONResponse)
 async def random_matching(request: Request):
@@ -297,10 +328,15 @@ async def random_matching(request: Request):
 				INSERT INTO notifications (type, ref)
 				VALUES ('newarrive', %s),('newarrive', %s)
 				"""
+
 			mycursor.execute(query1, (i[0],i[1]))
 			mycursor.execute(query2, (i[1],i[0]))
 			mycursor.execute(query3, (i[1],i[0]))
 			mycursor.execute(query4, (i[1],i[0]))
+
+			# 郵票解鎖
+			stamp_unlock(mycursor,i[0])
+			stamp_unlock(mycursor,i[1])	
 
 			broadcast_del_list.append({'postcardID':i[0]})
 			broadcast_del_list.append({'postcardID':i[1]})
@@ -352,6 +388,9 @@ async def mailto(request: Request):
 				VALUES ('newarrive', %s)
 				"""
 			mycursor.execute(query2, (postcard_id,))
+
+			# 郵票解鎖
+			stamp_unlock(mycursor, postcard_id)
 
 			mydb.commit()
 
