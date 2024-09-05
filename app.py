@@ -129,6 +129,10 @@ async def feed(request: Request):
 async def feed(request: Request):
 	return FileResponse("./static/stamp.html", media_type="text/html")
 
+@app.get("/about", include_in_schema=False)
+async def feed(request: Request):
+	return FileResponse("./static/about.html", media_type="text/html")
+
 
 # 我的郵票成就
 @app.get("/api/stamps", response_class=JSONResponse)
