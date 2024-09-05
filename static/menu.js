@@ -71,11 +71,54 @@ $(document).ready(function() {
 			if (isLoggedIn) {
 				dialog.dialog("open");
 				console.log('dialog open');
+				chooseStamp()
 			} else {
 				alert("請先註冊或登入，才可以使用寄信功能！");
 			}
 		});
 	}
+
+
+
+	// 選擇郵票
+	function chooseStamp() {
+		const token = localStorage.getItem('token')
+		fetch('/api/stamps', {
+			method: 'GET',
+			headers: {'Authorization': `Bearer ${token}`}
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data.unlock)
+
+				const chooseStamp = document.getElementById('choose-stamp')
+				chooseStamp.innerHTML = ""
+
+				data.unlock.forEach(stamp => {
+					console.log(stamp)
+					const stampDiv = document.createElement('div')
+					stampDiv.className = "stampDiv"
+					const stampImg = document.createElement('img')
+					stampImg.className = "stampImg"
+					stampDiv.classList.add('stamp')
+					stampImg.src = stamp.image_url
+					stampDiv.appendChild(stampImg)
+					chooseStamp.appendChild(stampDiv)
+
+					// Event listener : 根據 click 	
+					$(stampDiv).on('click', function() {
+
+						addStamp(stamp.image_url)
+
+					})
+				})
+		})
+	}
+
+
+
+
+
 
 
 	async function addpostcard(dialog) {

@@ -26,14 +26,30 @@ imaged.position(-28, -22.5);
 // image.resize(687, 400);
 // image.attr('image/xlinkHref', 'static/image/postcard_template.png'); 
 imaged.resize(656, 478);
-imaged.attr('image/xlinkHref', 'static/image/vintage-mailing-envelope.png'); 
+imaged.attr('image/xlinkHref', '/static/image/vintage-mailing-envelope.png'); 
 imaged.addTo(graph);
+
+
+// 貼郵票
+var stamp2canvas;
+
+function addStamp(url) {
+    if (stamp2canvas) {
+        stamp2canvas.remove()
+    }
+    stamp2canvas = new joint.shapes.standard.Image();
+    stamp2canvas.position(405, 30);
+    stamp2canvas.resize(130, 200);
+    stamp2canvas.attr('image/xlinkHref', url); 
+    stamp2canvas.addTo(graph);
+}
 
 
 var lastElement;
 var selectedElement;
 
 paper.on('element:pointerclick', function(elementView) {
+
     var element = elementView.model;
     selectedElement = elementView.model;
     
@@ -131,12 +147,14 @@ function addImage() {
 }
 
 
+
 // 圖片上傳
 $('#upload-image').on('change', function(event) {
     var file = event.target.files[0];
     if (file) {
         var reader = new FileReader();
         reader.onload = function(e) {
+            //console.log(e.target.result)
             var image = new joint.shapes.standard.Image();
             image.resize(345, 336);
             image.position(45, 55);
@@ -213,3 +231,4 @@ document.getElementById('save').addEventListener('click', function() {
         });
     });
 });
+

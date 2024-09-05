@@ -129,6 +129,10 @@ async def feed(request: Request):
 async def feed(request: Request):
 	return FileResponse("./static/stamp.html", media_type="text/html")
 
+@app.get("/mydrafts", include_in_schema=False)
+async def feed(request: Request):
+	return FileResponse("./static/draft.html", media_type="text/html")
+
 @app.get("/about", include_in_schema=False)
 async def feed(request: Request):
 	return FileResponse("./static/about.html", media_type="text/html")
@@ -154,9 +158,10 @@ async def stamps(request: Request):
 		# print("所有郵票清單：",result1)
 
 		queryUnlock = """
-		SELECT stamp_id
-		FROM user_stamp 
-		WHERE user_id = %s
+		SELECT s.stamp_id, s.image_url
+		FROM stamps s
+		LEFT JOIN user_stamp us on s.stamp_id = us.stamp_id 
+		WHERE s.unlock_value='free' OR us.user_id = %s
 		"""
 		mycursor.execute(queryUnlock,(myjwtx["id"],))
 		result2 = mycursor.fetchall()
@@ -169,6 +174,7 @@ async def stamps(request: Request):
 
 	return {
 		"all": result1,
+		"unlock": result2,
 		}
 
 

@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="/static/home-sidebar.css"> 
 	<link rel="stylesheet" href="/static/func_popup.css"> 
 	<link rel="stylesheet" href="/static/painting.css"> 
+	<link rel="stylesheet" href="/static/stamp.css"> 
   
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
   
@@ -127,12 +128,19 @@
 	<!-- 寄送明信片編輯框 -->
 	<div id="dialog" title="編輯中...">
 		<div id="paper"></div>
-		<div id="canvas-controls">
-			<button id="add-text">Add Text</button>
+		<div class = 'flexDiv'>
+			<div id="choose-stamp" title="選擇郵票">
+
+			</div>
+		</div>
+		<div id="canvas-controls" class = "flexDiv">
+			<button id="add-text" class="nowrap">Add Text</button>
 			<button id="add-image" style="display: none;">Add Image</button>
 			<input type="file" id="upload-image" accept="image/*">
 			<button id="save">Save</button>
 		</div>
+
+
 		<form>
 		
 		<!-- <fieldset class="ui-helper-reset">

@@ -62,7 +62,7 @@
 }
 
 .ui-dialog {
-	z-index: 1000 !important;
+	z-index: 10002 !important;
 	width : 650px !important;
 	min-height : 500px !important; 
 }
