@@ -537,7 +537,7 @@ async def createMessage(request: Request, say: Optional[str] = Form(None), img_u
 
 
 		with mysql.connector.connect(pool_name="hello") as mydb, mydb.cursor(buffered=True,dictionary=True) as mycursor :
-			query = "INSERT INTO message (member_id, content, img_link) VALUES (%s, %s, %s)"
+			query = "INSERT INTO postcard_msgboard (member_id, content, img_link) VALUES (%s, %s, %s)"
 			inputs = (myjwtx['id'], say, img_link)
 			mycursor.execute(query, inputs)
 
@@ -562,13 +562,14 @@ async def feed(request: Request):
 		with mysql.connector.connect(pool_name="hello") as mydb, mydb.cursor(buffered=True,dictionary=True) as mycursor :
 			query = """
 			WITH board AS(
-				SELECT postcard_users.name, message.content, img_link, message.time, message.id, parent_id, LPAD(ifnull(parent_id,message.id), 3, '0') AS level
-				FROM message 
-				JOIN postcard_users ON message.member_id = postcard_users.id 
+				SELECT postcard_users.name, PM.content, img_link, PM.time, PM.msg_id, parent_id, LPAD(ifnull(parent_id,PM.msg_id), 3, '0') AS level
+				FROM postcard_msgboard PM
+				JOIN postcard_users ON PM.member_id = postcard_users.id 
 			)
 			SELECT * FROM board 
-			ORDER BY level,id
+			ORDER BY msg_id DESC
 			"""
+			# -- ORDER BY level,id 留言排序功能待更新
 			mycursor.execute(query)
 			result = mycursor.fetchall()
 			# print(result)

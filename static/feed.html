@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/home-sidebar.css"> 
+
+    <!-- 引入 Font Awesome 的 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+</head>
+<style>
+  .feedImage {
+	width: 100px;
+	height: 150px;
+	border-radius: 5%;
+	overflow: hidden;
+	object-fit: cover; /* 保持比例、裁掉多出來的部分 */
+}
+ .post_msg {
+  margin-top: 50px;
+  background-color: antiquewhite;
+  border: solid 3px rgb(98, 98, 40);
+  border-radius: 10px;
+  padding: 15px; 
+ }
+
+ #board-content {
+  border: solid 3px rgb(98, 98, 40);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0px;
+ }
+
+ .msgbox_div {
+  background-color: rgb(246, 240, 232);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 5px 0px;
+ }
+
+
+</style>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <nav>
+		<div class="nav-group">
+			<div class="nav-group-left">
+				<span id="toggle-btn" onclick="toggleSidebar(false)">&#9776; </span>	
+				<a class="home-link" href="/home"><img style="width: 41px; vertical-align: middle;" src="/static/image/post-card.png">Project-July Postcards</a>
+			</div>        
+			<div class="nav-group-right">
+				<a class = "a-style-1" href="/feed" onclick="toFeed()">留言板</a>
+				<a id = "signin-card" class = "a-style-1" href="" onclick="card(); return false;">登入/註冊</a>
+				<a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
+			</div>
+		</div>
+    <!-- pop up memu -->
+    <div class = "card">
+      <div class = "card-decorator"></div>
+      <button class = "close-btn" type="button" onclick="card_close()">X</button>
+      <h1>登入會員帳號</h1>
+      <input type="text"  id = "email" class = "popup-input" placeholder="輸入電子信箱">
+      <input type="password"  id = "password" class = "popup-input" placeholder="輸入密碼">
+      <button class = "popup-btn" onclick="signin()">登入帳戶</button>
+      <p class="center-text">還沒有帳戶？<span class="change-card" onclick="showRegister()">點此註冊</span></p>
+      <p id="note2" class="note center-text"></p>
+    </div>
+    <div class = "card" id = "cardx">
+      <div class = "card-decorator"></div>
+      <button class = "close-btn" type="button" onclick="card_close()">X</button>
+      <h1>註冊會員帳號</h1>
+      <input type="text"  id = "namex" class = "popup-input" placeholder="輸入暱稱">
+      <input type="text"  id = "emailx" class = "popup-input" placeholder="輸入電子信箱">
+      <input type="password"  id = "passwordx" class = "popup-input" placeholder="輸入密碼">
+      <button class = "popup-btn" onclick="register()">註冊</button>
+      <p class="center-text"><span class="change-card" onclick="showSignin()">已經有帳戶了？點此登入</span></p>
+      <p id="note" class="note center-text"></p>
+    </div>
+  </nav>
+
+  <div name="placeholder" style="height:50px;"></div>
+
+	<div class = 'flexDiv'>
+
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebarX">
+      <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+      <a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
+      <a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
+      <a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
+      <a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a>
+      <a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
+      <a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
+      <a href="#" <i class="fa fa-paper-plane"></i> <span class="d-none d-md-inline">朋友的通知</span></a>
+      <a href="#" <i class="fa fa-heart"></i> <span class="d-none d-md-inline">友站連結</span></a>
+      <a href="#" <i class="fa fa-gear"></i> <span class="d-none d-md-inline">設定</span></a>
+      <a href="#" <i class="fa fa-star"></i> <span class="d-none d-md-inline">公告</span></a>
+      <a href="/about" <i class="fa fa-question"></i> <span class="d-none d-md-inline">關於</span></a>
+    </div>
+
+    <div class="container1200">
+      <form id="messageForm" >
+        <div class="post_msg">
+            <h2>快來留言吧</h2>
+            <label for="say">我想說&nbsp;&nbsp;
+                <input id="say" name="say" type="text" required>
+            </label>
+            <div>
+              <label for="img_upload">圖片檔案&nbsp;&nbsp;
+                <input id="img_upload" name="img_upload" type="file">
+              </label>
+            </div>
+            <div><button type="button" onclick=createMessage()>送出</button></div>
+        </div>
+      </form>
+      <div id="board-content"></div>
+    </div>
+
+  </div>
+
+  <footer class="footer">Copyright 	&#169; Project-July</footer>
+  <script src="/static/auth.js"></script>
+  <script src="static/home-sidebar.js"></script>
+  <script src="/static/feed.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      checkLoginStatus()
+      feed()
+    })
+  </script>
+</body>
+</html>
