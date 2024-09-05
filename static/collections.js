@@ -7,6 +7,7 @@ function collections(page, keyword = "") {
 
 	let apiUrl = `/api/collections`
     
+    const contactBox = document.querySelector('#mail-contact-box')
     const container2 = document.querySelector('#container2')
 
     fetch(apiUrl, {
@@ -18,11 +19,33 @@ function collections(page, keyword = "") {
 
 			console.log(data)
 
+            // 顯示 mailFrom 資料到 contact-box
+            const uniqueMailFrom = new Set() // 使用 Set 使聯絡人不重複
+            data.data.forEach(item => {
+                if (!uniqueMailFrom.has(item.mailFrom)) {
+                    uniqueMailFrom.add(item.mailFrom)
+                    const mailFromDiv = document.createElement('div')
+                    mailFromDiv.className = "contact-item"
+
+                    const contactImg = document.createElement('img')
+                    contactImg.className = "contact-img"
+                    contactImg.src = item.avatar
+
+                    const contactName = document.createElement('span')
+                    contactName.innerText = item.mailFrom
+
+                    contactBox.appendChild(mailFromDiv)
+                    mailFromDiv.appendChild(contactImg)
+                    mailFromDiv.appendChild(contactName)
+                }
+            })
+
+            // 顯示所有收到的明信片
             for (let i=0;i<data.data.length;i++){
                 const div = document.createElement('div')
                 div.className = "imgbox"
-                const textdiv = document.createElement('div')
-                textdiv.className = "textbox"
+                // const textdiv = document.createElement('div')
+                // textdiv.className = "textbox"
                 const p1 = document.createElement('p')
                 p1.className = "p1"
                 p1.innerText = data.data[i].country  
@@ -33,7 +56,7 @@ function collections(page, keyword = "") {
                 div.appendChild(photo)
                 div.appendChild(p1)                
                 container2.appendChild(div)
-                div.appendChild(textdiv)
+                // div.appendChild(textdiv)
             }
             nextPage = data.nextPage; 
             read()

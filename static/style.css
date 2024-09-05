@@ -119,54 +119,6 @@ nav {
     color:  #448899;
 }
 
-#container2 {
-    display:flex;
-    max-width: 1200px;
-    width: 100vw;
-    flex-wrap: wrap;
-    justify-content: left;
-    /* border: solid pink 2px; */
-    margin: auto;
-    box-sizing: border-box;
-}
-
-.imgbox {
-    height: 242px;
-    width: 270px;
-    position: relative;
-    border: solid rgba(128, 128, 128, 0.39) 1px;
-    margin: 10px auto ;
-}
-
-.myphoto {
-    height: 197px;
-    width: 270px;
-    object-fit: cover;
-}
-
-.p1 {
-    position: absolute;
-    width:100%;
-    top: 158px; /* 距離圖片下緣的距離 */
-    color: rgb(255, 255, 255);
-    text-align: left;
-    background-color: rgba(0,0,0,0.6); /* 背景顏色及透明度 */
-    padding: 9px 5%; /* 文字框內的間距 */
-    margin: 0;
-    box-sizing: border-box;
-    overflow:hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.textbox {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* border: solid orange 3px; */
-    padding: 9px 5%;
-}
-
 .slide-bar {
     display: flex;
     align-items: center;
@@ -291,6 +243,7 @@ nav {
 
 
 .footer {
+    position: static; /* 顯示在底部 */
     align-items: center; 
     height: 60px;
     background-color: rgb(171, 189, 189);
@@ -342,11 +295,7 @@ html {
 
     .container .searchbar {
         width: 80%;
-        }
-
-    #container2 {
-        width: 80%;
-    }     
+        }  
     
     .slide-bar {
         width: 80%;
@@ -376,14 +325,6 @@ html {
     .container .searchbar {
         width: 320px;
         }
-
-    .imgbox {
-        width: 320px;
-    }
-
-    .myphoto {
-        width: 100%;
-    }
 
     .container1200 {
         width: 60%;

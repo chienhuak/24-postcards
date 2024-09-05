@@ -650,7 +650,8 @@ async def collections(request: Request, page:Optional[int]=0,keyword:Optional[st
 
 		query = """
 		SELECT *
-		FROM postcards 
+		FROM postcards p
+		INNER JOIN postcard_users u on p.mailFrom = u.name
 		WHERE (mailto = %s) 
 		ORDER BY postcardid desc
 		LIMIT %s OFFSET %s
