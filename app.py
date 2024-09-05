@@ -21,12 +21,16 @@ import random
 from typing import List  # 資料型別提示
 
 
+
 app=FastAPI(debug=True)
 jwtkey = "iweorhfnen834"
 
 # 從環境變數中讀取 MySQL 密碼
 mysql_password = os.environ.get("MYSQL_PASSWORD")
 tappay_partner_key = os.environ.get("TAPPAY")
+
+
+
 
 # 設置 AWS S3 環境變數
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -404,8 +408,7 @@ async def mailto(request: Request):
 
 			mydb.commit()
 
-			return JSONResponse(status_code=200, content={
-				"data": "ok"})
+			return JSONResponse(status_code=200, content={"data": {"ok": True}})
 			# return JSONResponse(status_code=200, content={
 			# 		"name": myjwtx["name"], 
 			# 		"country": myjwtx["country"], 

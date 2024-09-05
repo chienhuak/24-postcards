@@ -42,9 +42,13 @@ $(document).ready(function() {
 			addpostcard(form[0]);
 			$( this ).dialog( "close" );
 		  },
-		  '寄出(指定收件人)': function() {
-			mailto(form[0]);
-			$( this ).dialog( "close" );
+		  '寄出(指定收件人)': async function() {
+			const result = await mailto(form[0])
+			console.log("檢查 mailto result:", result);
+			if (result) {
+				alert("信件成功寄出囉，但是需要一點時間才會寄達！")
+				$( this ).dialog( "close" )
+			}
 		  },
 		  '取消': function() {
 			$( this ).dialog( "close" );
@@ -248,24 +252,49 @@ $(document).ready(function() {
 
 		console.log(jsonformData)
 
-
-		fetch("/api/mailto", {
-			headers: {
-				'Authorization': `Bearer ${token}`, // 將 JWT 放在 Authorization Header 中
+		// 修正
+		try {
+			const response = await fetch("/api/mailto", {
+			  headers: {
+				'Authorization': `Bearer ${token}`,
 				'Content-Type': 'application/json'
-			},
-			method: "POST",
-			body: JSON.stringify(jsonformData)
-		})
-		.then(response => response.json())
-		.then(data => {
-			if (data.data.ok) {
-				console.log("Form寄送成功:", data);
-			}
-		})
-		.catch(error => {
-		  console.error("Form寄送失敗:", error);
-		});
+			  },
+			  method: "POST",
+			  body: JSON.stringify(jsonformData)
+			});
+		
+			const data = await response.json()
+			console.log("Form寄送成功:", data)
+			return data
+		  } catch (error) {
+			console.error("郵件傳送錯誤", error)
+			return null 
+		  }
+		
+
+		// fetch("/api/mailto", {
+		// 	headers: {
+		// 		'Authorization': `Bearer ${token}`, // 將 JWT 放在 Authorization Header 中
+		// 		'Content-Type': 'application/json'
+		// 	},
+		// 	method: "POST",
+		// 	body: JSON.stringify(jsonformData)
+		// })
+		// .then(response => response.json())
+		// .then(data => {
+		// 	if (data.data.ok) {
+		// 		console.log("Form寄送成功:", data)
+		// 		return true // 回傳成功狀態
+		// 	} 
+		// 	else {
+		// 		console.log("寄送失敗，請再試一次", data)
+		// 		return false // 回傳失敗狀態
+		// 	}
+		// })
+		// .catch(error => {
+		//   console.error("Form寄送失敗:", error)
+		//   return false // 回傳失敗狀態
+		// })
 	  }	  
 
 	// Invoke the functions
