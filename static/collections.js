@@ -37,6 +37,15 @@ function collections(page, keyword = "") {
                     contactBox.appendChild(mailFromDiv)
                     mailFromDiv.appendChild(contactImg)
                     mailFromDiv.appendChild(contactName)
+
+                    // 監聽是否有點選聯絡人，並調用明信片匣篩選器
+                    mailFromDiv.addEventListener('click', () => {
+                        console.log("點選聯絡人：",item.mailFrom)
+                        const filterText = document.getElementById('mailbox-filter-note')
+                        filterText.innerText = "篩選："+ item.mailFrom
+                        showPostcardsByContact(item.mailFrom, data.data)
+                    })
+
                 }
             })
 
@@ -57,14 +66,47 @@ function collections(page, keyword = "") {
                 div.appendChild(p1)                
                 container2.appendChild(div)
                 // div.appendChild(textdiv)
+
             }
             nextPage = data.nextPage; 
             read()
+
         })
         .catch(error => {
             console.error('Error:', error)
         });
 }
+
+
+
+// 明信片匣篩選器
+function showPostcardsByContact(mailFrom, postcards) {
+    const container2 = document.querySelector('#container2')
+    container2.innerHTML = "" // 清空舊的明信片
+
+    const filteredPostcards = mailFrom 
+        ? postcards.filter(postcard => postcard.mailFrom === mailFrom)  // 篩選屬於該聯絡人的明信片
+        : postcards  // 如果 mailFrom 為 null，顯示所有明信片
+
+    // 顯示明信片
+    filteredPostcards.forEach(postcard => {
+        const div = document.createElement('div')
+        div.className = "imgbox"
+
+        const p1 = document.createElement('p')
+        p1.className = "p1"
+        p1.innerText = postcard.country
+
+        const photo = document.createElement('img')
+        photo.className = "myphoto"
+        photo.src = postcard.image
+
+        div.appendChild(photo)
+        div.appendChild(p1)
+        container2.appendChild(div)
+    })
+}
+
 
 
 // 更新未讀數量
