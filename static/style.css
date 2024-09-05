@@ -34,7 +34,7 @@ nav {
     /* border : dotted 3px orange; */
     box-sizing: border-box;
     position: fixed;
-    z-index: 999;
+    z-index: 10001;
     background-color: #091332;
     border-bottom: 1px solid #ddd;
 }

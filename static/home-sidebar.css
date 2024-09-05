@@ -70,10 +70,10 @@
 }
 
 .sidebarX {
-	/* height: 60%; */
+	position: sticky;
+	top: 50px; 
 	height: auto;
 	width: 200px;
-	top: 50px; 
 	left: 0;
 	background-color: rgba(9, 19, 50, 1); /* 不透明 */
 	overflow-x: hidden;
