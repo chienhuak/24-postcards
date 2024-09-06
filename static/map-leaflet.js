@@ -10,10 +10,10 @@ var mymap = L.map('mapid', {
   }).addTo(mymap);
 
 
-  L.marker([25.000205219171278,121.30057531237935]).addTo(mymap).bindPopup('Hi 我在這裡').openPopup(); // create marker here
-  L.marker([25.000205219171278,100.30057531237935]).addTo(mymap).bindPopup('來自朋友的明信片 <img src="http://via.placeholder.com/100x50">'); // create marker here
-  L.marker([40.000205219171278,80.30057531237935]).addTo(mymap).bindPopup('來自朋友的明信片 <img src="http://via.placeholder.com/100x50">'); // create marker here
-  L.marker([-37.901918, 145.051624]).addTo(mymap).bindPopup('我在澳洲有好可愛的袋鼠！ <img src="http://via.placeholder.com/100x50">'); // create marker here
+  // L.marker([25.000205219171278,121.30057531237935]).addTo(mymap).bindPopup('Hi 我在這裡').openPopup(); // create marker here
+  // L.marker([25.000205219171278,100.30057531237935]).addTo(mymap).bindPopup('來自朋友的明信片 <img src="http://via.placeholder.com/100x50">'); // create marker here
+  // L.marker([40.000205219171278,80.30057531237935]).addTo(mymap).bindPopup('來自朋友的明信片 <img src="http://via.placeholder.com/100x50">'); // create marker here
+  // L.marker([-37.901918, 145.051624]).addTo(mymap).bindPopup('我在澳洲有好可愛的袋鼠！ <img src="http://via.placeholder.com/100x50">'); // create marker here
 
 
   function map_marker() {
