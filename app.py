@@ -749,6 +749,46 @@ async def collections(request: Request, page:Optional[int]=0,keyword:Optional[st
 		"data": results}
 
 
+# 我寄出的明信片
+@app.get("/api/historymap", response_class=JSONResponse)
+async def historymap(request: Request, page:Optional[int]=0,keyword:Optional[str]=""):
+
+	# 從 Authorization Header 中提取 token
+	auth_header = request.headers.get('Authorization')
+	if auth_header:
+		myjwt = auth_header.split(" ")[1] 
+
+		# 解碼 JWT
+		myjwtx = jwt.decode(myjwt,jwtkey,algorithms="HS256")
+
+	if page < 0:
+		return JSONResponse(status_code=500, content={
+			"error": True,
+			"message": "頁數錯誤"
+			}) 
+
+	with mysql.connector.connect(pool_name="hello") as mydb, mydb.cursor(buffered=True,dictionary=True) as mycursor :
+
+		# 每頁顯示12條留言
+		page_size = 12
+
+		query = """
+		SELECT *
+		FROM postcards p
+		INNER JOIN postcard_users u on p.mailFrom = u.name
+		WHERE (mailFrom = %s) 
+		ORDER BY postcardid desc
+		LIMIT %s OFFSET %s
+		"""
+		# mycursor.execute(query, (keyword, '%'+keyword+'%', page_size, page_size*page))   # 關鍵字搜尋
+		mycursor.execute(query, (myjwtx["name"], page_size, page_size*page))
+		results = mycursor.fetchall()
+
+	return {
+		"nextPage": page+1 if len(results) == 12 else None,
+		"data": results}
+
+
 # 查詢玩家排名
 @app.get("/api/ranking", response_class=JSONResponse)
 async def ranking(request: Request):
@@ -938,4 +978,6 @@ async def ws_queue(ws: WebSocket):
 			# await broadcast_queue_update(data)
 	except WebSocketDisconnect :
 		manager.disconnect(ws)
+
+
 

@@ -129,7 +129,11 @@
       </div>
 
       <!-- 地圖 -->
+      <h3>我的收件地圖</h3>
       <div id="mapid" style="max-width: 1200px; height: 600px;"></div>
+
+      <h3>我的寄件地圖 (TBD)</h3>
+      <div id="mapid2" style="max-width: 1200px; height: 600px;"></div>
 
     </div>
   </div>
@@ -204,7 +208,8 @@
     <script>
       document.addEventListener('DOMContentLoaded', function(){
         checkLoginStatus()
-        map_marker()
+        map_marker(mymap,'/api/collections')
+        map_marker(mymap2,'/api/historymap')
       })
     </script>
 </body>
