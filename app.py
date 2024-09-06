@@ -291,7 +291,7 @@ def nonstop_stamp_unlock(cursor : mysql.connector.cursor.MySQLCursorDict, userID
 		unlock_value = int(criteria['unlock_value'])
 
 		# 如果寄件總數達到了新的標準，且未解鎖該成就
-		if sentCount >= reachUnlockValue and unlock_value > reachUnlockValue :
+		if sentCount >= unlock_value and unlock_value > reachUnlockValue :
 			# 解鎖該成就，插入 user_stamp 表
 			query8 = """
 				INSERT INTO user_stamp (user_id, stamp_id)
