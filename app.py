@@ -230,6 +230,9 @@ async def add_postcards(request: Request):
 				"""
 			mycursor.execute(query2, (postcard_id, myjwtx["name"], myjwtx["country"],))
 
+			# 解鎖持續寄信郵票
+			nonstop_stamp_unlock(mycursor, myjwtx["id"])
+
 			mydb.commit()
 			
 			await broadcast_queue_update([{'postcardID':postcard_id,'mailFrom':myjwtx["name"]}], 'add')
@@ -242,8 +245,64 @@ async def add_postcards(request: Request):
 					"longitude": data["longitude"]})
 
 
-# 郵票解鎖
-def stamp_unlock(cursor : mysql.connector.cursor.MySQLCursorDict, postcardID : int) : 
+# 解鎖持續寄信郵票
+def nonstop_stamp_unlock(cursor : mysql.connector.cursor.MySQLCursorDict, userID : int) : 
+
+	# criteria
+	query5 = """
+		SELECT stamp_id, unlock_value
+		FROM stamps
+		WHERE cat = "nonstop"
+		"""
+	cursor.execute(query5)
+	criteriaList = cursor.fetchall()  # [{stamp_id:8,unlock_value:5},{stamp_id:9,unlock_value:20},{stamp_id:10,unlock_value:100}]
+	print("類別二解鎖條件:",criteriaList)
+
+	# 查詢寄件總數
+	query6 = """
+		SELECT count(p.mailFrom)
+		FROM postcards p
+		INNER JOIN postcard_users u on u.name = p.mailFrom
+		WHERE u.id = %s
+		GROUP BY mailFrom
+		"""
+	cursor.execute(query6, (userID,))
+	result6 = cursor.fetchone()  # 27
+	sentCount = int(result6['count(p.mailFrom)']) if result6 else 0  # 如果沒有寄信紀錄，設為 0
+	print("寄信總數:",sentCount)
+
+	# 查詢最新一筆解鎖紀錄
+	query7 = """
+		SELECT s.unlock_value
+		FROM user_stamp us
+		INNER JOIN stamps s on s.stamp_id = us.stamp_id
+		WHERE s.cat = "nonstop" AND us.user_id = %s
+		ORDER BY s.unlock_value ASC
+		LIMIT 1
+		"""
+	cursor.execute(query7, (userID,))
+	result7 = cursor.fetchone() # 20 OR None
+	reachUnlockValue = int(result7['unlock_value']) if result7 else 0  # 如果沒有解鎖紀錄，預設為 0
+	print("解鎖紀錄最大值:",reachUnlockValue)
+
+	# 判斷是否應該解鎖新的成就
+	for criteria in criteriaList :
+		stamp_id = criteria['stamp_id']
+		unlock_value = int(criteria['unlock_value'])
+
+		# 如果寄件總數達到了新的標準，且未解鎖該成就
+		if sentCount >= reachUnlockValue and unlock_value > reachUnlockValue :
+			# 解鎖該成就，插入 user_stamp 表
+			query8 = """
+				INSERT INTO user_stamp (user_id, stamp_id)
+				VALUES (%s, %s)
+			"""
+			cursor.execute(query8, (userID, stamp_id))
+			
+
+
+# 解鎖地區郵票
+def region_stamp_unlock(cursor : mysql.connector.cursor.MySQLCursorDict, postcardID : int) : 
 
 	query5 = """
 		SELECT t.id as receiverUid, f.region
@@ -358,8 +417,8 @@ async def random_matching(request: Request):
 			mycursor.execute(query4, (i[1],i[0]))
 
 			# 郵票解鎖
-			stamp_unlock(mycursor,i[0])
-			stamp_unlock(mycursor,i[1])	
+			region_stamp_unlock(mycursor,i[0])
+			region_stamp_unlock(mycursor,i[1])	
 
 			broadcast_del_list.append({'postcardID':i[0]})
 			broadcast_del_list.append({'postcardID':i[1]})
@@ -412,8 +471,10 @@ async def mailto(request: Request):
 				"""
 			mycursor.execute(query2, (postcard_id,))
 
-			# 郵票解鎖
-			stamp_unlock(mycursor, postcard_id)
+			# 解鎖地區郵票
+			region_stamp_unlock(mycursor, postcard_id)
+			# 解鎖持續寄信郵票
+			nonstop_stamp_unlock(mycursor, myjwtx["id"])
 
 			mydb.commit()
 
