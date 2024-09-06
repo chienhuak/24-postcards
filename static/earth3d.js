@@ -111,7 +111,7 @@ export let planesData = []
 
 
 // 做座標
-async function coordinatePoint(lat,lng,imageUrl) {
+async function coordinatePoint(lat,lng,imageUrl,sender,country) {
 
 	// 創建座標
 	const point = new THREE.Mesh(
@@ -144,6 +144,12 @@ async function coordinatePoint(lat,lng,imageUrl) {
 		})
 	)
 	marker.position.set(x * 1.1 ,y * 1.1 ,z * 1.1 ) 
+
+	marker.userData = {
+        type: 'postcard',
+        sender: sender,
+        country: country
+    }
 
 	// 讓明信片水平顯示
 	const direction = new THREE.Vector3(x, y, z).normalize()
@@ -322,13 +328,36 @@ function animate() {
 	// }) );
 
 	for ( let i = 0; i < intersects.length; i ++ ) {
-		// console.log("點到我囉！")
-		gsap.set(popupEl, {
-			display : 'block'
-		})
+
+		// 取得 userData
+		const intersectedObject = intersects[i].object
+
+		if (intersectedObject.userData && intersectedObject.userData.type === 'postcard') {
+
+			const { sender, country, type } = intersectedObject.userData
+
+			gsap.set(popupEl, {
+				display : 'block'
+			})
+
+			popupEl.innerHTML = `<p>你收到來自<strong> ${country} </strong>的明信片<strong> BY ${sender}</strong></p>`
+		}
+
+		else if (intersectedObject.userData && intersectedObject.userData.isPlane) {
+
+			gsap.set(popupEl, {
+				display : 'block'
+			})
+			
+			popupEl.innerHTML = `<p>某個用戶寄出一封明信片，郵差正在加班寄送中 :) </p>`
+		}
+
+		// // console.log("點到我囉！")
+		// gsap.set(popupEl, {
+		// 	display : 'block'
+		// })
 
 		// intersects[ i ].object.material.color.set( 0xff0000 );
-
 	}
 
 	renderer.render( scene, camera );
@@ -413,7 +442,8 @@ function map_marker() {
 			console.log(data)
 
             for (let i=0;i<data.data.length;i++){
-				coordinatePoint(data.data[i].latitude, data.data[i].longitude, data.data[i].image)  
+				// 新增傳入參數 : 增加 USER DATA
+				coordinatePoint(data.data[i].latitude, data.data[i].longitude, data.data[i].image, data.data[i].mailFrom, data.data[i].country) 
             }
             // nextPage = data.nextPage
         })
