@@ -19,7 +19,8 @@ from botocore.exceptions import NoCredentialsError
 # 隨機
 import random
 from typing import List  # 資料型別提示
-
+# enable CORS on server 
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app=FastAPI(debug=True)
@@ -29,7 +30,15 @@ jwtkey = "iweorhfnen834"
 mysql_password = os.environ.get("MYSQL_PASSWORD")
 tappay_partner_key = os.environ.get("TAPPAY")
 
-
+# CORS config
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # 設置 AWS S3 環境變數

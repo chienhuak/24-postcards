@@ -46,7 +46,8 @@
 </style>
 <body>
   <div class="overlay" id="overlay"></div>
-  <nav>
+
+	<nav>
 		<div class="nav-group">
 			<div class="nav-group-left">
 				<span id="toggle-btn" onclick="toggleSidebar(false)">&#9776; </span>	
@@ -58,29 +59,33 @@
 				<a id = "signout-btn" class = "a-style-1" href="" onclick="signout()">登出</a>
 			</div>
 		</div>
-    <!-- pop up memu -->
-    <div class = "card">
-      <div class = "card-decorator"></div>
-      <button class = "close-btn" type="button" onclick="card_close()">X</button>
-      <h1>登入會員帳號</h1>
-      <input type="text"  id = "email" class = "popup-input" placeholder="輸入電子信箱">
-      <input type="password"  id = "password" class = "popup-input" placeholder="輸入密碼">
-      <button class = "popup-btn" onclick="signin()">登入帳戶</button>
-      <p class="center-text">還沒有帳戶？<span class="change-card" onclick="showRegister()">點此註冊</span></p>
-      <p id="note2" class="note center-text"></p>
-    </div>
-    <div class = "card" id = "cardx">
-      <div class = "card-decorator"></div>
-      <button class = "close-btn" type="button" onclick="card_close()">X</button>
-      <h1>註冊會員帳號</h1>
-      <input type="text"  id = "namex" class = "popup-input" placeholder="輸入暱稱">
-      <input type="text"  id = "emailx" class = "popup-input" placeholder="輸入電子信箱">
-      <input type="password"  id = "passwordx" class = "popup-input" placeholder="輸入密碼">
-      <button class = "popup-btn" onclick="register()">註冊</button>
-      <p class="center-text"><span class="change-card" onclick="showSignin()">已經有帳戶了？點此登入</span></p>
-      <p id="note" class="note center-text"></p>
-    </div>
-  </nav>
+		<!-- pop up memu -->
+		<div class = "card">
+		<div class = "card-decorator"></div>
+		<button class = "close-btn" type="button" onclick="card_close()">X</button>
+		<h1>登入會員帳號</h1>
+		<input type="text"  id = "email" class = "popup-input" placeholder="輸入電子信箱">
+		<input type="password"  id = "password" class = "popup-input" placeholder="輸入密碼">
+		<button class = "popup-btn" type="button" onclick="signin()">登入帳戶</button>
+		<p class="center-text">還沒有帳戶？<span class="change-card" onclick="showRegister()">點此註冊</span></p>
+		<p id="note2" class="note center-text"></p>
+		</div>
+		<div class = "card" id = "cardx">
+		<div class = "card-decorator"></div>
+		<button class = "close-btn" type="button" onclick="card_close()">X</button>
+		<h1>註冊會員帳號</h1>
+		<input type="text"  id = "namex" class = "popup-input" placeholder="輸入暱稱">
+		<input type="text"  id = "emailx" class = "popup-input" placeholder="輸入電子信箱">
+		<input type="password"  id = "passwordx" class = "popup-input" placeholder="輸入密碼">
+		<select id="country-select" name="country" class = "popup-input">
+			<option value="">（選擇國家）</option>
+		</select>
+		<input type="hidden" name="region" id = "region" class = "popup-input" placeholder="隱藏欄位(動態填值)">
+		<button class = "popup-btn" onclick="register()">註冊</button>
+		<p class="center-text"><span class="change-card" onclick="showSignin()">已經有帳戶了？點此登入</span></p>
+		<p id="note" class="note center-text"></p>
+		</div>
+	</nav>
 
   <div name="placeholder" style="height:50px;"></div>
 
@@ -91,7 +96,7 @@
       <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
       <a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
       <a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
-      <a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a>
+      <!-- <a href="#" <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">我的草稿</span></a> -->
       <!-- <a href="#" onclick="ranking(event)"><i class="fa-solid fa-medal"></i> <span class="d-none d-md-inline">排行榜</span></a> -->
       <a href="/history" <i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">歷史紀錄</span></a>
       <!-- <a href="#" <i class="fa fa-th"></i> <span class="d-none d-md-inline">造訪其他收藏</span></a>
