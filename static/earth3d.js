@@ -204,6 +204,9 @@ export function makePlane(postcard) {
 	// 設置 userData，才能在 raycaster 中識別 
 	plane.userData.isPlane = true;
 	plane.userData.userId = postcard.mailFrom;
+	plane.userData = { // TBD
+		'type':'plane'
+	}
 
 
 	return {
@@ -331,8 +334,14 @@ function animate() {
 
 		// 取得 userData
 		const intersectedObject = intersects[i].object
+		console.log(intersectedObject.userData.type)
 
-		if (intersectedObject.userData && intersectedObject.userData.type === 'postcard') {
+		if (intersectedObject.userData && intersectedObject.userData.type === 'landscope') {
+
+			intersects[i].object.material.color.set(0xffc0cb); // hover 時變粉紅色
+		}
+
+		else if (intersectedObject.userData && intersectedObject.userData.type === 'postcard') {
 
 			const { sender, country, type } = intersectedObject.userData
 
@@ -531,3 +540,68 @@ function createTextMesh(userId) {
 	const mesh = new THREE.Mesh(geometry2, material2)
 	return mesh
 }
+
+
+
+landscope()
+
+function landscope() {
+
+fetch('/static/countries.json')
+    .then(response => response.json())
+    .then(data => drawCountries(data))
+
+
+// 繪製國家多邊形
+function drawCountries(data) {
+
+    const radius = 6
+
+    data.features.forEach((country) => {
+
+        const geometry = new THREE.BufferGeometry()
+        
+        country.geometry.coordinates.forEach(polygon => {
+            const verticesArray = [];
+
+            polygon[0].forEach(coord => {
+                const lat = coord[1]
+                const lon = coord[0]
+                const vertex = latLong2vector3(lat, lon)
+                verticesArray.push(vertex.x, vertex.y, vertex.z)  // Push x, y, z coordinates into the array
+            })
+
+            // Create BufferGeometry and set the position attribute
+            const geometry = new THREE.BufferGeometry()
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(verticesArray, 3))  // 3 represents x, y, z coordinates
+
+            const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+
+            const mesh = new THREE.Mesh(geometry, material)
+            mesh.userData = {
+                type: "landscope"
+            }
+
+            earth.add(mesh)
+        })
+})
+}
+
+
+// 經緯度轉換Vector3
+function latLong2vector3(lat,lng) {
+
+	const latitude = (lat / 180) * Math.PI
+	const longitude = ((lng + 90) / 180) * Math.PI  // +90 校正
+	const radius = 6
+	// console.log({latitude, longitude})
+	const x = radius * Math.cos(latitude) * Math.sin(longitude)
+	const y = radius * Math.sin(latitude)
+	const z = radius * Math.cos(latitude) * Math.cos(longitude)
+	console.log({x, y, z})
+
+	return new THREE.Vector3(x, y, z)
+
+}
+}
+
