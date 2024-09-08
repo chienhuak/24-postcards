@@ -142,3 +142,20 @@
 #rank-info_btn:hover::before {
 	display: block;
 }
+
+
+.about2home-a {
+	background-color: rgb(247, 237, 237);
+	text-decoration: none;
+	border: solid 3px pink; 
+	border-radius : 15px; 
+	padding:10px; 
+	font-size: 15px;
+	margin: 10px 0px;
+	display: inline-block;
+}
+
+.about2home-a:hover {
+    background-color: rgb(234, 208, 208);
+}
+
