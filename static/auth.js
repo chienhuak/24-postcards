@@ -178,10 +178,12 @@ function signout() {
 }
 
 
+var isLogin = false
 
 async function checkLoginStatus() {
 
     console.log('checkLoginStatus running..')
+    const loginRequire = document.getElementById('loginRequire')
     const signoutBtn = document.getElementById('signout-btn')
     const signinBtn = document.getElementById('signin-card')
 
@@ -193,6 +195,13 @@ async function checkLoginStatus() {
 
     // 從 localStorage 獲取 JWT
     const token = localStorage.getItem('token')
+
+    // 檢查是否有 token，沒有則直接重定向到首頁
+    if (!token && loginRequire) {
+        console.log('導向首頁...')
+        window.location.href = '/home';  // 未登入導向首頁
+        return
+    }
     
     // 將 JWT 作為 Bearer Token 放在 Authorization Header 中
     const response = await fetch('/api/user/auth', {
@@ -204,11 +213,14 @@ async function checkLoginStatus() {
         console.log('checkLoginStatus signin..')
         signoutBtn.style.display = "inline-block"
         signinBtn.style.display = "none"
+        isLogin = true
         return true
     } else {
         console.log('checkLoginStatus signout..')
         signoutBtn.style.display = "none"
         signinBtn.style.display = "inline-block"
+        if(loginRequire) window.location.href = '/home'  // 未登入導向首頁
+        isLogin = false
         return false
     }
 }

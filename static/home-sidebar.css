@@ -2,7 +2,8 @@
 .sidebar {
 	/* height: 60%; */
 	height: auto;
-	width: 0;
+	/* width: 0; */
+	width: 200px;
 	position: fixed;
 	top: 50%; /* Position it at the middle of the screen */
 	transform: translateY(-50%); /* Adjust it to be vertically centered */
