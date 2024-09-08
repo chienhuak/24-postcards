@@ -214,6 +214,7 @@ async function checkLoginStatus() {
         signoutBtn.style.display = "inline-block"
         signinBtn.style.display = "none"
         isLogin = true
+        console.log("改變 isLogin :",isLogin)
         return true
     } else {
         console.log('checkLoginStatus signout..')

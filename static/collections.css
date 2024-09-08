@@ -27,24 +27,23 @@
 }
 
 .imgbox {
-    /* height: 242px; */
-	height: 197px;
-    width: 270px;
+    min-width: 270px;
+    height: auto;
     position: relative;
     border: solid rgba(128, 128, 128, 0.39) 1px;
     margin: 10px;
 }
 
 .myphoto {
-    height: 197px;
-    width: 270px;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
 }
 
 .p1 {
     position: absolute;
     width:100%;
-    top: 158px; /* 距離圖片下緣的距離 */
+    bottom: 0px; /* 距離圖片下緣的距離 */
     color: rgb(255, 255, 255);
     text-align: left;
     background-color: rgba(0,0,0,0.6); /* 背景顏色及透明度 */
@@ -117,17 +116,17 @@
 
     .imgbox {
         width: 100%;
+        height: auto;
     }
 
-    .myphoto {
-        width: 100%;
+    #mail-postcard-box {
+        min-width: 360px;
     }
 
 }
 
 
 @media (max-width: 600px) {
-
 
 
 }

@@ -1,18 +1,19 @@
-let isSidebarOpen
-function toggleSidebar(isOpen) {
+function toggleSidebar() {
 	const sidebar = document.getElementById("mySidebar");
-	if(!sidebar.style.width) isSidebarOpen = isOpen;
-	if (isSidebarOpen) {
+	console.log("檢查 isLogin :",isLogin)
+	if (!isLogin) {
 		sidebar.style.width = "0";
-		isSidebarOpen = false;
-		console.log('sidebar close',sidebar.style.width);
-	} else {
+		return
+	}
+	if (sidebar.style.width.startsWith("0")) {
 		sidebar.style.width = "200px";
-		isSidebarOpen = true;
 	    console.log('sidebar open',sidebar.style.width);
+	} else {
+		sidebar.style.width = "0";
+		console.log('sidebar close',sidebar.style.width);
 	}
 }
 
-  function closeNav() {
+function closeNav() {
 	document.getElementById("mySidebar").style.width = "0";
 }

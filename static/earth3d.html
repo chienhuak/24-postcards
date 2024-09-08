@@ -49,7 +49,7 @@
 	<div class="overlay" id="overlay"></div>
 
 		<!-- Sidebar -->
-		<div id="mySidebar" class="sidebar">
+		<div id="mySidebar" class="sidebar" style="display: none;">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<a href="/collections"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">我的信箱</span><span id="unreadCount" class="unread">0</span></a>
 			<a href="/mystamps" <i class="fa fa-copy"></i> <span class="d-none d-md-inline">我的郵票</span></a>
@@ -67,7 +67,7 @@
 	<nav>
 		<div class="nav-group">
 			<div class="nav-group-left">
-				<span id="toggle-btn" onclick="toggleSidebar(false)">&#9776; </span>	
+				<span id="toggle-btn" onclick="toggleSidebar(false)" style="visibility:hidden;">&#9776; </span>	
 				<a class="home-link" href="/home"><img style="width: 41px; vertical-align: middle;" src="/static/image/post-card.png">Project-July Postcards</a>
 			</div>        
 			<div class="nav-group-right">
@@ -196,11 +196,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
 	<script type="module" src="static/earth3d.js"></script>
-	<!-- <script type="module" src="static/earth3d_240908_ignore.js"></script> -->
 	<script type="module" src="static/websocket.js"></script>
 	<script>
-	document.addEventListener('DOMContentLoaded', function(){
-		checkLoginStatus()
+	document.addEventListener('DOMContentLoaded', async function(){
+		await checkLoginStatus()
+		const sidebar = document.getElementById("mySidebar");
+		const toggleBtn = document.getElementById("toggle-btn");
+		console.log("檢查 isLogin :",isLogin)
+		if (isLogin) {
+			sidebar.style.display = "block";
+			toggleBtn.style.visibility = "visible";
+		}
 	})
 	</script>
 </body>

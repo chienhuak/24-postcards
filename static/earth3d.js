@@ -132,7 +132,7 @@ async function coordinatePoint(lat,lng,imageUrl,sender,country) {
 	const x = radius * Math.cos(latitude) * Math.sin(longitude)
 	const y = radius * Math.sin(latitude)
 	const z = radius * Math.cos(latitude) * Math.cos(longitude)
-	console.log({x, y, z})
+	// console.log({x, y, z})
 
 	// Marker
 	const marker = new THREE.Mesh(
@@ -166,7 +166,7 @@ async function coordinatePoint(lat,lng,imageUrl,sender,country) {
 	earth.add(point)
 
 	// console.log(earth.position)
-	console.log(point.position)
+	// console.log(point.position)
 
 	// planesData.push(makePlane())
 }
@@ -606,7 +606,7 @@ function latLong2vector3(lat,lng) {
 	const x = radius * Math.cos(latitude) * Math.sin(longitude)
 	const y = radius * Math.sin(latitude)
 	const z = radius * Math.cos(latitude) * Math.cos(longitude)
-	console.log({x, y, z})
+	// console.log({x, y, z})
 
 	return new THREE.Vector3(x, y, z)
 
