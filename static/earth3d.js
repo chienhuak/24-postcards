@@ -555,15 +555,18 @@ fetch('/static/countries.json')
 // 繪製國家多邊形
 function drawCountries(data) {
 
-    const radius = 6
+    const radius = 5.2
 
     data.features.forEach((country) => {
 
+		// 儲存國家的幾何數據 (BufferGeometry 使用緩衝區（BufferAttribute）來存儲幾何數據，直接與 GPU 進行交互)
         const geometry = new THREE.BufferGeometry()
         
         country.geometry.coordinates.forEach(polygon => {
-            const verticesArray = [];
+            // 存儲頂點的坐標數據
+			const verticesArray = []
 
+			// 多邊形的所有頂點坐標
             polygon[0].forEach(coord => {
                 const lat = coord[1]
                 const lon = coord[0]
@@ -571,18 +574,21 @@ function drawCountries(data) {
                 verticesArray.push(vertex.x, vertex.y, vertex.z)  // Push x, y, z coordinates into the array
             })
 
-            // Create BufferGeometry and set the position attribute
+            // 建立 BufferGeometry Object，並且每個頂點的坐標數據，包含 x, y, z 屬性
             const geometry = new THREE.BufferGeometry()
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(verticesArray, 3))  // 3 represents x, y, z coordinates
 
-            const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+			const lineGeometry = new THREE.BufferGeometry()
+			lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(verticesArray, 3))
 
-            const mesh = new THREE.Mesh(geometry, material)
-            mesh.userData = {
+			const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
+			const line = new THREE.LineLoop(lineGeometry, lineMaterial)
+
+			line.userData = {
                 type: "landscope"
             }
 
-            earth.add(mesh)
+			earth.add(line)
+
         })
 })
 }
@@ -593,7 +599,7 @@ function latLong2vector3(lat,lng) {
 
 	const latitude = (lat / 180) * Math.PI
 	const longitude = ((lng + 90) / 180) * Math.PI  // +90 校正
-	const radius = 6
+	const radius = 5.2
 	// console.log({latitude, longitude})
 	const x = radius * Math.cos(latitude) * Math.sin(longitude)
 	const y = radius * Math.sin(latitude)
