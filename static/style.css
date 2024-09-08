@@ -155,12 +155,18 @@ nav {
     margin: 0;
 }
 
+.card h1, 
+.card p,
+.card span {
+    color: rgb(233, 245, 69); /* 將 .card 內的 h1 和 p 的文字顏色設為黑色 */
+}
+
 .card {
     position: fixed;
     width: 340px;
     z-index: 999;
-    border : solid 1px rgba(0,0,0,.125);
-    background-color: azure;
+    border : solid 4px rgba(255, 153, 0, 0.3);
+    background-color:  rgb(24, 24, 40);
     border-radius: .25em;
     top: 70px;
     left:50%;
@@ -175,7 +181,7 @@ nav {
     left: 0;
     width: 100%;
     height: 10px; /* 裝飾條的高度 */
-    background-color: #448899; /* 裝飾條的顏色 */
+    background-color: rgba(20, 20, 20, 0.8); /* 裝飾條的顏色 */
 }
 
 
@@ -188,9 +194,10 @@ nav {
     width: 310px;
     padding: 15px;
     margin: 10px 0px;
-    border : solid 1px rgba(0,0,0,.125);
+    border : solid 1px rgba(244, 183, 0, 0.4);
     border-radius: .25em;
     box-sizing: border-box;
+    background-color: rgba(20, 20, 20, 0.8);
 }
 
 .popup-btn {
@@ -199,11 +206,12 @@ nav {
     width: 310px;
     padding: 5px;
     margin: 10px 0px;
-    background-color: #448899;
-    color:rgb(255, 255, 255);
-    border : solid 1px rgba(0,0,0,.125);
+    background-color: rgba(20, 20, 20, 0.8);
+    color:rgb(228, 251, 21);
+    border : solid 1px rgba(244, 183, 0, 0.4);
     border-radius: .25em;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .overlay {
