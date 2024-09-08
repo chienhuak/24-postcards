@@ -53,7 +53,14 @@ function card_close() {
     
 }
 
+function quickSignin() {
+    // 設置測試帳號和密碼
+    document.getElementById('email').value = 'au' // 測試帳號
+    document.getElementById('password').value = 'au' // 測試密碼
 
+    // 呼叫已有的登入函數
+    signin()
+}
 
 async function signin() {
     const email = document.getElementById('email').value;

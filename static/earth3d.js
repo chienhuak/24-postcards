@@ -252,7 +252,7 @@ scene.add(ambientLight)
 
 
 const raycaster = new THREE.Raycaster()
-raycaster.ray.direction.multiplyScalar(2) // 增加檢測範圍
+// raycaster.ray.direction.multiplyScalar(2) // 增加檢測範圍
 // console.log(raycaster)
 const popupEl = document.querySelector('#popupEl')
 
@@ -569,7 +569,7 @@ fetch('/static/countries.json')
     .then(response => response.json())
     .then(data => {
 		drawCountries(data)
-		// drawShapes(data2)
+		// drawShapes(data)
 	}
 	)
 
@@ -678,47 +678,52 @@ function latLong2vector3(lat,lng) {
 
 
 
-function drawShapes(data2) {
+// function drawShapes(data2) {
 
-	// console.log("取得資料，繪製國家形狀 : ",data2)
+// 	// console.log("取得資料，繪製國家形狀 : ",data2)
 
-    const radius = 5.2
+//     const radius = 5.2
 
-    data2.features.forEach((country) => {
+//     data2.features.forEach((country) => {
+		
+// 		if (country.geometry.type === "MultiPolygon") {
+// 			country.geometry.coordinates.forEach(polygon => {
+// 				// 存儲頂點的坐標數據
+// 				const verticesArray = []
+	
+// 				// 多邊形的所有頂點坐標
+// 				polygon[0].forEach(coord => {
+// 					const lat = coord[1]
+// 					const lon = coord[0]
+// 					const vertex = (lat, lon)
+// 					verticesArray.push(vertex) 
+// 				})
+	
+// 				console.log("取得 verticesArray : ", verticesArray)	
 
-        country.geometry.coordinates.forEach(polygon => {
-            // 存儲頂點的坐標數據
-            const verticesArray = []
+//                 // 從頂點創建 Shape
+//                 const shape = new THREE.Shape(verticesArray.map(v => new THREE.Vector2(v.x, v.z)));
+	
+// 				// 如果你想創建帶有厚度的形狀，可以使用 ExtrudeGeometry
+// 				const extrudeSettings = { depth: 1, bevelEnabled: false }
+// 				const extrudeGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+// 				const shapeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide })
+	
+// 				// 創建 Mesh
+// 				const shapeMesh = new THREE.Mesh(extrudeGeometry, shapeMaterial)
+	
+// 				shapeMesh.userData = {
+// 					type: "landshape"
+// 				}
+	
+// 				// 將 shape Mesh 添加到場景中
+// 				earth.add(shapeMesh)
+// 			})
+// 		}
 
-            // 多邊形的所有頂點坐標
-            polygon[0].forEach(coord => {
-                const lat = coord[1]
-                const lon = coord[0]
-                const vertex = (lat, lon)
-				// console.log(vertex) // debug
-                verticesArray.push(new THREE.Vector2(vertex.x, vertex.z)) 
-            })
-
-            // 從頂點創建 Shape
-            const shape = new THREE.Shape(verticesArray)
-
-            // 如果你想創建帶有厚度的形狀，可以使用 ExtrudeGeometry
-            const extrudeSettings = { depth: 1, bevelEnabled: false }
-            const extrudeGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
-            const shapeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide })
-
-            // 創建 Mesh
-            const shapeMesh = new THREE.Mesh(extrudeGeometry, shapeMaterial)
-
-            shapeMesh.userData = {
-                type: "landscope"
-            }
-
-            // 將 shape Mesh 添加到場景中
-            earth.add(shapeMesh)
-        })
-    })
-}
+// 		//
+//     })
+// }
 
 }
 
