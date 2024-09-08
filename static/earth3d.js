@@ -205,7 +205,7 @@ export function makePlane(postcard) {
 	plane.userData.isPlane = true;
 	plane.userData.userId = postcard.mailFrom;
 	plane.userData = { // TBD
-		'type':'plane'
+		'type':'plane',
 	}
 
 
@@ -252,7 +252,7 @@ scene.add(ambientLight)
 
 
 const raycaster = new THREE.Raycaster()
-raycaster.ray.direction.multiplyScalar(100) // 增加檢測範圍
+raycaster.ray.direction.multiplyScalar(2) // 增加檢測範圍
 // console.log(raycaster)
 const popupEl = document.querySelector('#popupEl')
 
@@ -326,15 +326,18 @@ function animate() {
 
 	const intersects = raycaster.intersectObjects( earth.children, true);
 	// 在 raycaster.intersectObjects 中，第二个參數 true，則檢查所有子對象
+
+	// 篩選 raycaster.intersectObjects 類別 (e.g. Mesh...)
 	// const intersects = raycaster.intersectObjects( earth.children.filter((mesh) =>{
 	// 	return mesh.geometry.type === 'PlaneGeometry'
-	// }) );
+	// }) )
 
 	for ( let i = 0; i < intersects.length; i ++ ) {
 
 		// 取得 userData
 		const intersectedObject = intersects[i].object
-		console.log(intersectedObject.userData.type)
+		// console.log(intersectedObject.userData)
+		// console.log(intersectedObject.userData.type)
 
 		if (intersectedObject.userData && intersectedObject.userData.type === 'landscope') {
 
@@ -351,14 +354,13 @@ function animate() {
 
 			popupEl.innerHTML = `<p>你收到來自<strong> ${country} </strong>的明信片<strong> BY ${sender}</strong></p>`
 		}
+		// 如果物件的 userData 是 undefined，檢查是否是 Group 的子物件
+		else if (intersectedObject.parent && intersectedObject.parent.userData.type === 'plane') {
+			console.log(intersectedObject.parent.userData.type);
 
-		else if (intersectedObject.userData && intersectedObject.userData.isPlane) {
+			gsap.set(popupEl, { display: 'block' });
+			popupEl.innerHTML = `<p>某個用戶寄出一封明信片，郵差正在加班寄送中 :)</p>`
 
-			gsap.set(popupEl, {
-				display : 'block'
-			})
-			
-			popupEl.innerHTML = `<p>某個用戶寄出一封明信片，郵差正在加班寄送中 :) </p>`
 		}
 
 		// // console.log("點到我囉！")
