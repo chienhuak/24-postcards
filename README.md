@@ -28,3 +28,6 @@ A postcard exchange social platform to match users, write letters and collect st
 <img src="https://github.com/user-attachments/assets/4cbd15dc-a0f9-4257-92e4-0191815e7f48" width="650" />
 
 ### Database Schema:
+
+<img src="https://github.com/user-attachments/assets/f204a46e-3e8a-4519-9c96-87db906dd235" width="650" />
+
