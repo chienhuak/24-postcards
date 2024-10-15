@@ -4,7 +4,7 @@ A postcard exchange social platform to match users, write letters and collect st
 
 ### Web Basic Info:
 
-- Website URL: https://project-july.com/home
+- Website URL: https://postcards.roject-july.com/home
 
 ### Demo:
 
